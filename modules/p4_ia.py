@@ -12,5 +12,5 @@ def calculer_meilleur_move(plateau):
     Entrée : Un plateau implémente par un tableau de tableau. 
     Sortie : Le numero de colonne sur lequel il faut placer le pion controllé par l'IA
     """
-    # HAHA
+    # HAHA COMMENT C NUL
     return random.randint(0, COLONNES)
