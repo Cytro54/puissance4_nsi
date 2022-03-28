@@ -1,8 +1,11 @@
-class p4console():
+class p4console:
     def __init__(self):
         pass
-class joueur(couleur,nom_joueur):
-    def __init__(self):
+
+#classe joueur
+class joueur:
+    def __init__(self,couleur,nom_joueur):
         self.couleur = couleur
         self.nom_joueur = nom_joueur
     
+    def 
