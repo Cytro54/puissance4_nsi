@@ -8,5 +8,7 @@ vide, joueur1, joueur2 = 0, 1, 2
 Class jeu():
     def __init__(self):
         self.grille = []
-        for ligne in range(nb_lignes+2):
-            self.grille.append(nb_collonnes)
+        for ligne in range(nb_lignes+2): # +2 cases pour les bords
+            self.grille.append(nb_collonnes+2) # +2 cases pour les bords
+        joueur1 = joueur(rouge,nom_joueur1)
+        joueur2 = joueur(jaune,nom_joueur2)
