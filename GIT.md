@@ -20,6 +20,7 @@ Pour faire un commit , rien est plus simple:
 2. Ouvrez la ligne de commande
 3. ```bash
    # Valider les modifications actuelles avec pour message de commit "Modification du module console"
+   $ git add *
    $ git commit -a -m "Modification du module console"
 
    # Sauvegarder les modifications sur le serveur
