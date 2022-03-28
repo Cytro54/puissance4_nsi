@@ -7,5 +7,6 @@ class joueur:
     def __init__(self,couleur,nom_joueur):
         self.couleur = couleur
         self.nom_joueur = nom_joueur
-    
-    def 
+        self.score = 0
+    def gagne(self,nom_joueur):
+        self.score +=1
