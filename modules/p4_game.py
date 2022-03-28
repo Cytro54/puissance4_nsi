@@ -11,16 +11,16 @@ class P4_game():
         self.tour = 0
 
     def jeu(self):
-        for line in range(nb_line):
+        for _ in range(nb_line):
             nvline = []
-            for col in range(nb_col):
-                nvline.append(col * 0)
+            for _ in range(nb_col):
+                nvline.append(0)
             self.plateau.append(nvline)
     
-    def jeu_possible(self,incolonne):
-        pass
+    def jeu_possible(self,incol):
+        if line
 
-    def get_case(self,ligne,colonnes):
+    def get_case(self,line,col):
         pass
 
     def victoire(self):
