@@ -1,14 +1,25 @@
 #variable principale
 nb_lignes = 6
-nb_collonnes = 7
+nb_colonnes = 7
 nb_lignes_gagnant = 4
 nb_joueurs = 2
 vide, joueur1, joueur2 = 0, 1, 2
 
-Class jeu():
+class P4_game():
     def __init__(self):
-        self.grille = []
+        self.plateau = []
         for ligne in range(nb_lignes+2): # +2 cases pour les bords
-            self.grille.append(nb_collonnes+2) # +2 cases pour les bords
-        joueur1 = joueur(rouge,nom_joueur1)
-        joueur2 = joueur(jaune,nom_joueur2)
+            self.plateau.append(nb_colonnes+2) # +2 cases pour les bords
+        self.tour = 0
+
+    def jeu(self):
+        pass
+    
+    def jeu_possible(self):
+        pass
+
+    def get_case(self,ligne,colonnes):
+        pass
+
+    def victoire(self):
+        pass
