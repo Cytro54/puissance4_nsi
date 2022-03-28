@@ -18,7 +18,10 @@ class P4_game():
             self.plateau.append(nvline)
     
     def jeu_possible(self,incol):
-        if line
+        if incol < 1 or incol > nb_col:
+            return False
+        elif:
+            if self.tour = 
 
     def get_case(self,line,col):
         pass
