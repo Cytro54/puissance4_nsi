@@ -4,6 +4,8 @@ nb_col = 7
 nb_winer_line = 4
 nb_joueurs = 2
 vide, joueur1, joueur2 = 0, 1, 2
+j1_score = 0
+j2_score =0
 
 class P4_game():
    """
@@ -11,7 +13,7 @@ class P4_game():
    """ 
     def __init__(self):
         self.plateau = []
-        #si le tour est un nombre paire  
+        #si le tour est un nombre paire le joueur 1 joue, sinon c'est le joueur 2 qui joue  
         self.tour = 0
 
     def jeu(self):
@@ -43,7 +45,7 @@ class P4_game():
             return True
              
 
-    def get_case(self,line,col):
+    def placer(self,col):
         """
         entrée: le numéro de la colonne
         sortie: le jeton correspondant au joueurs 1 ou 2 serra ajouté au dessus des autres jetons de la colonne
@@ -69,3 +71,6 @@ class P4_game():
 
     def victoire(self):
         pass
+    
+    def get_score(self):
+        return j1_score, j2_score
