@@ -1,4 +1,4 @@
-import P4_game
+from p4_game import *
 
 class p4_console:
     def __init__(self):
