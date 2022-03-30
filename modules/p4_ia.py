@@ -15,10 +15,14 @@ def __estimer_avantage(plateau, joueur, ligne, colonne, longueur):
     #    . . . . . 
     #    . 0 X X X
     #    0 X 0-0-0
-    
     somme = 0
     if longueur == 0:
         return 0
+    try:
+        plateau[ligne][colonne]
+    except IndexError:
+        return 0
+        
     if plateau[ligne][colonne] == joueur:
         somme += 1
     if plateau[ligne][colonne] == joueur or plateau[ligne][colonne] == CASE_NEUTRE:
@@ -51,7 +55,6 @@ def __dump_plateau(game):
             tableau[ligne][col] = game.get_case(ligne, col)
     return tableau
 
-
 def calculer_meilleur_move(game, difficulte):
     """
     Calcule le meilleur mouvement a jouer pour une game donné
@@ -73,6 +76,17 @@ def calculer_meilleur_move(game, difficulte):
 
 # Asserts, Ou comment ne pas tester une IA
 if __name__ == "__main__":
+    # Trucs utiles
+    def assert_avantage(plateau, ligne, colonne, expected1, expected2):
+        avantage1 = __estimer_avantage(plateau, 1, ligne, colonne, 4)
+        avantage2 = __estimer_avantage(plateau, 2, ligne, colonne, 4)
+        print(f"Avantage 1: {avantage1}")
+        print(f"Avantage 2: {avantage2}")
+        assert avantage1 == expected1
+        assert avantage2 == expected2
+
+    
+    # Jeu Nul
     PLATEAU_1 = [
         [0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0],
@@ -82,4 +96,18 @@ if __name__ == "__main__":
         [0, 0, 0, 0, 0, 0],
     ]
 
-    assert __estimer_avantage(PLATEAU_1, 1, 0, 0, 4) == 0
+    print(" == Plateau Nul == ")
+    assert_avantage(PLATEAU_1, 0, 0, 0, 0) # Personne ne gagne ici
+
+    # Jeu avec avantage pour 1
+    PLATEAU_1 = [
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 2, 0, 0],
+        [0, 1, 1, 1, 2, 0],
+    ]
+
+    print(" == Avantage de 1 == ")
+    assert_avantage(PLATEAU_1, LIGNES, 3, 0, 0) # Personne ne gagne ici
