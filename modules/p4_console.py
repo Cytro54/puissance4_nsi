@@ -1,4 +1,6 @@
-class p4console:
+import P4_game
+
+class p4_console:
     def __init__(self):
 
     def affiche(self,plateau):
@@ -21,11 +23,10 @@ class p4console:
 class joueur:
     def __init__(self):
         pass
-    def j1(self,couleur,motif,nom_joueur)
-        self.couleur = couleur
+    def j1(self,motif,nom_joueur)
         self.motif = motif
-    def j2(self,couleur,motif,nom_joueur)
-
+    def j2(self,motif,nom_joueur)
+        self.motif = motif
     def gagne(self,nom_joueur):
         self.score +=1
 

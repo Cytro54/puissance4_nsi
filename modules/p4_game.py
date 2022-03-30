@@ -17,11 +17,20 @@ class P4_game():
                 nvline.append(0)
             self.plateau.append(nvline)
     
-    def jeu_possible(self,incol):
-        if incol < 1 or incol > nb_col:
-            return False
-        elif:
-            if self.tour = 
+    def jeu_possible(self,col):
+        """
+        entré: numero de la colonne (1 à 7)
+        sortie: print erreur si:
+        -le numéro de la colonne est inférieur à 1,
+        -supérieur à 6
+        -si la la colonne est pleine
+        sinon print "Le coup est possible"
+        """
+        if col < 1 or col > nb_col and len(self.plateau[col]) >= 7:
+            print("ERREUR")
+        else:
+            print("Le coup est possible")
+             
 
     def get_case(self,line,col):
         pass
