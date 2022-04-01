@@ -1,4 +1,5 @@
-# Ce Module implémente l' Intelligence Artificielle 
+# Ce Module implémente l' "Intelligence Artificielle", 
+# (elle s'appelle Viktor)
 # du jeu, le tout sera fait par une simple fonction; 
 # en se servant du MinMax
 import random
@@ -105,7 +106,6 @@ def __dump_plateau(game):
     return tableau
 
 def __mix_max(game, joueur):
-
     meilleur_avantage = 0
     meilleur_move = 0
     for col in range(COLONNES):
@@ -138,7 +138,6 @@ def calculer_meilleur_move(game, difficulte, joueur_ia):
     
     if difficulte == DIFFICULTE_FACILE:
         return __mix_max(game, joueur_ia)
-
 
 # Asserts, Ou comment ne pas tester une IA
 if __name__ == "__main__":
