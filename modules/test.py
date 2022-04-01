@@ -1,7 +1,43 @@
 #juste pour tester mon code
-l = [[1,2,3,4,78,5,7,9],[3,3,3],[4,4,4]]
-print(len(l[0]))
-for i in l[0]:
-    print(i)
+tour = 0
+nb_line = 6
+nb_col = 7
 
-print(0%1)
+
+tour = 0
+nb_line = 6
+nb_col = 7
+col = 1
+
+plateau = [
+    [0, 0, 0, 0, 0, 0],     # |
+    [0, 0, 0, 0, 0, 0],     # | "Ligne"
+    [0, 0, 0, 0, 0, 0],     # V
+    [0, 0, 0, 0, 0, 0],     # + ----->
+    [0, 0, 0, 0, 0, 0],     #    "Colonne"
+    [0, 0, 0, 0, 0, 0],     #
+]
+
+print(plateau)
+
+if tour % 2 == 0:
+
+    for i in plateau[col]:
+        
+        while plateau[col][i] >= nb_line:
+            if len(plateau[col]) => 6
+            
+            if i != 0:
+                plateau[col][i-1] = 1
+            else:
+                pass
+    tour +=1
+
+else:
+    for i in plateau[col]:
+        while plateau[col][i] >= nb_line:
+            if i != 0:
+                plateau[col][i-1] = 2
+            else:
+                pass
+    tour +=1
