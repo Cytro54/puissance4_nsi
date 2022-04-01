@@ -13,6 +13,7 @@ DIFFICULTE_FACILE = 1
 
 class VictoireException(Exception):
     """ Execption qui indique que l'on a gagné"""
+    # HAHAHAHAHHAHAHAHHAHA MAIS QUESCAUE C NUl DHUFFRYUFGRYFGRYGFYRGFYU
 
 def __estimer_avantage_vectoriel(
     plateau, 
