@@ -1,4 +1,5 @@
-# Ce Module implémente l' Intelligence Artificielle 
+# Ce Module implémente l' "Intelligence Artificielle", 
+# (elle s'appelle Viktor)
 # du jeu, le tout sera fait par une simple fonction; 
 # en se servant du MinMax
 import random
@@ -9,6 +10,9 @@ CASE_NEUTRE = 0
 
 DIFFICULTE_ALEATOIRE = 0
 DIFFICULTE_FACILE = 1
+
+class VictoireException(Exception):
+    """ Execption qui indique que l'on a gagné"""
 
 def __estimer_avantage_vectoriel(
     plateau, 
@@ -26,18 +30,17 @@ def __estimer_avantage_vectoriel(
     
     if ligne < 0 or colonne < 0:
         # En dehors du plateau; 
-        return 0
+        return (somme, norme_vecteur)
 
     try:
         case = plateau[ligne][colonne]
-        print(f"({ligne}, {colonne}): {case}")
     except IndexError:
         # En dehors du plateau ? ; la ligne s'arette ici.
-        return 0
+        return (somme, norme_vecteur)
 
     if case != CASE_NEUTRE and case != joueur:
         # Si la case est pas neutre ou de nous, alors la ligne s'arette ici. 
-        return 0
+        return (somme, norme_vecteur)
 
     if case == joueur:
         # La case est a nous :), ajoutons 1 au compteur
@@ -45,7 +48,7 @@ def __estimer_avantage_vectoriel(
 
     # Maintenant, calculons cette somme pour la case adjacente suivant le vecteur.
     #print(f"{norme_vecteur} > ({ligne},{colonne})")
-    somme += __estimer_avantage_vectoriel(
+    (somme_ajout, norme_vecteur) = __estimer_avantage_vectoriel(
         plateau, 
         joueur, 
         origine_ligne, 
@@ -54,7 +57,12 @@ def __estimer_avantage_vectoriel(
         vecteur_colonne, 
         norme_vecteur)
 
-    return somme
+    somme += somme_ajout
+
+    if somme >= LONGEUR_LIGNE_VICTORIEUSE and norme_vecteur == LONGEUR_LIGNE_VICTORIEUSE + 1:
+        raise VictoireException(f"Gagné : Depart de x({ligne}, {colonne}) Vecteur v({vecteur_ligne}, {vecteur_colonne})")
+
+    return (somme, norme_vecteur)
 
 def __estimer_avantage(
     plateau, 
@@ -68,13 +76,9 @@ def __estimer_avantage(
     somme = 0
 
     def estim_rapide(vecteur_ligne, vecteur_colonne):
-        print(f" === Trajet === ")
-        ajout = __estimer_avantage_vectoriel(plateau, joueur, ligne, colonne, vecteur_ligne, vecteur_colonne, 0)
-        if ajout >= LONGEUR_LIGNE_VICTORIEUSE:
-            raise RuntimeWarning(f"Gagné : Depart de x({ligne}, {colonne}) Vecteur v({vecteur_ligne}, {vecteur_colonne})")
-        else:
-            print(" ============== ")
-            return ajout
+        (ajout, _) = __estimer_avantage_vectoriel(plateau, joueur, ligne, colonne, vecteur_ligne, vecteur_colonne, 0)
+        return ajout
+            
 
     # Calculer pour toutes les lignes possibles
 
@@ -107,15 +111,31 @@ def __dump_plateau(game):
             tableau[ligne][col] = game.get_case(ligne, col)
     return tableau
 
-def calculer_meilleur_move(game, difficulte):
+def __mix_max(game, joueur):
+    meilleur_avantage = 0
+    meilleur_move = 0
+    for col in range(COLONNES):
+        # Comment perdre de la memoire en une étape.
+        game_essaye = game.copy()
+        if game_essaye.jeu_possible(col):
+            game_essaye.placer(col)
+            plateau_temporaire = __dump_plateau(game_essaye)
+            avantage_temporaire = __estimer_avantages(plateau_temporaire, joueur)
+            if avantage_temporaire > meilleur_avantage:
+                meilleur_move = col
+                meilleur_avantage = avantage_temporaire
+    return meilleur_move
+
+def calculer_meilleur_move(game, difficulte, joueur_ia):
     """
-    Calcule le meilleur mouvement a jouer pour une game donné
+    Calcule le meilleur mouvement a jouer pour une game donnée
 
     Entree :
      - `game`: Object 'P4_game'
      - `difficulté`: Représente le niveau de difficulté; peut etre;
         - 0: Aléatoire: Choisit une case au hasard
         - 1: Facile: Un algorithme de MinMax facile
+     - `joueur_ia`: Identifiant du joueur joué par l'IA (1 ou 2)
 
     Sortie : Le numero de colonne sur lequel il faut placer le pion controllé par l'IA
     """
@@ -123,8 +143,7 @@ def calculer_meilleur_move(game, difficulte):
         return random.randint(0, COLONNES)
     
     if difficulte == DIFFICULTE_FACILE:
-        raise "Pas encore implémenté"
-
+        return __mix_max(game, joueur_ia)
 
 # Asserts, Ou comment ne pas tester une IA
 if __name__ == "__main__":
@@ -143,10 +162,10 @@ if __name__ == "__main__":
     # Jeu Nul
     PLATEAU_1 = [
         [0, 0, 0, 0, 0, 0],     # |
-        [0, 0, 0, 0, 0, 0],     # | "Ligne"
+        [0, 0, 0, 0, 0, 0],     # | "Colonne"
         [0, 0, 0, 0, 0, 0],     # V
         [0, 0, 0, 0, 0, 0],     # + ----->
-        [0, 0, 0, 0, 0, 0],     #    "Colonne"
+        [0, 0, 0, 0, 0, 0],     #    "Ligne"
         [0, 0, 0, 0, 0, 0],     #
     ]
 
@@ -164,12 +183,7 @@ if __name__ == "__main__":
     ]
 
     print(" == Avantage de 1 == ")
-    try:
-        assert_avantage(PLATEAU_2, 1)
-    except RuntimeWarning:
-        # Normalement; l'estimation deverait dire que il a gagné
-        # Donc on s'attend a une erreur
-        pass
+    assert_avantage(PLATEAU_2, 1)
 
     # Jeu avec victoire pour 1
     PLATEAU_3 = [
@@ -185,7 +199,20 @@ if __name__ == "__main__":
     try:
         assert_avantage(PLATEAU_3, 1)
         raise "C'est censé crasher xd"
-    except RuntimeWarning:
+    except VictoireException:
         # Normalement; l'estimation deverait dire que il a gagné
         # Donc on s'attend a une erreur
         pass
+
+    # Jeu random
+    PLATEAU_3 = [
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0],
+        [0, 0, 0, 0, 2, 0],
+        [0, 0, 0, 0, 1, 0],
+        [0, 1, 0, 1, 1, 0],
+    ]
+
+    print(" == Autre jeu == ")
+    assert_avantage(PLATEAU_3, 1)
