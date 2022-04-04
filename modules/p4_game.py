@@ -1,4 +1,5 @@
 #variables principales
+
 nb_line = 6 # hauteur du plateau
 nb_col = 7 # largeur du plateau
 nb_winer_line = 4 
@@ -49,7 +50,7 @@ class P4_game():
             return True
              
 
-    def placer(self,col):if self.tour % 2 == 0:
+    def placer(self,col):
         """
         entrée: le numéro de la colonne
         sortie: le jeton correspondant au joueurs 1 ou 2 serra ajouté au dessus des autres jetons de la colonne
