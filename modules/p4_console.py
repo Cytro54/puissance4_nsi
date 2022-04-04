@@ -1,3 +1,11 @@
+#variables principales
+j1 = {}
+j2 = {}
+nb_joueurs = 0
+
+
+
+
 from p4_game import *
 
 class p4_console:
@@ -25,8 +33,7 @@ class p4_console:
 #classe joueur
 class joueur:
     def __init__(self):
-        self.motif = ""
-        self.nom = ""
+        pass
 
     def debut_jeu(self):
         nb_joueurs = 0
@@ -38,8 +45,6 @@ class joueur:
             if nb_joueurs != 1 or nb_joueurs != 2 :
                 print("erreur")
         if nb_joueurs == 1 :
-            j1 = {}
-            j2 = {}
             j1["nom"] = input("nom du joueur :")
             j2["nom"] = "Viktor Nikiforov"    
             j1["score"] = 0
