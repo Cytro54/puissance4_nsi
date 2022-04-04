@@ -3,6 +3,8 @@ j1 = {}
 j2 = {}
 
 from p4_game import *
+from p4_basesdedonnee import *
+
 
 class p4_console:
     def __init__(self):
@@ -32,6 +34,7 @@ class joueur:
         pass
 
     def debut_jeu(self):
+
         nb_joueurs = 0
         while nb_joueurs != 1 or nb_joueurs != 2 :
             print("Mode de jeux :")
