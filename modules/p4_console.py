@@ -54,7 +54,7 @@ class joueur:
                 print(f"{i} : {lmotif[i]}")
             motif1 = lmotif[int(input())]
             lmotif.remove(motif1)
-            print("motif du joueur 1 :")
+            print("motif de L'IA :")
             for i in range(len(lmotif)):
                 print(f"{i} : {lmotif[i]}")
             motif2 = lmotif[int(input())]
@@ -66,6 +66,18 @@ class joueur:
             j2["nom"] = input("nom du joueur 2 :")
             j1["score"] = 0
             j2["score"] = 0
+            lmotif = ["⯀","⯁","⯂","⯄","⯅"]
+            print("motif du joueur 1 :")
+            for i in range(len(lmotif)):
+                print(f"{i} : {lmotif[i]}")
+            motif1 = lmotif[int(input())]
+            lmotif.remove(motif1)
+            print("motif du joueur 2 :")
+            for i in range(len(lmotif)):
+                print(f"{i} : {lmotif[i]}")
+            motif2 = lmotif[int(input())]
+            j1["motif"] = motif1
+            j2["motif"] = motif2
 
 
 
