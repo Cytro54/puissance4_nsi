@@ -36,11 +36,11 @@ def __estimer_avantage_vectoriel(
     try:
         case = plateau[ligne][colonne]
     except IndexError:
-        # En dehors du plateau ? ; la ligne s'arrete ici.
+        # En dehors du plateau ? ; la ligne s'arette ici.
         return (somme, norme_vecteur)
 
     if case != CASE_NEUTRE and case != joueur:
-        # Si la case est pas neutre ou de nous, alors la ligne s'arrete ici. 
+        # Si la case est pas neutre ou de nous, alors la ligne s'arette ici. 
         return (somme, norme_vecteur)
 
     if case == joueur:
@@ -145,6 +145,14 @@ def calculer_meilleur_move(game, difficulte, joueur_ia):
     
     if difficulte == DIFFICULTE_FACILE:
         return __mix_max(game, joueur_ia)
+
+def a_gagne(game, joueur):
+    try:
+        plateau = __dump_plateau(game)
+        _avantage = __estimer_avantages(plateau, joueur)
+        return False
+    except VictoireException:
+        return True
 
 # Asserts, Ou comment ne pas tester une IA
 if __name__ == "__main__":

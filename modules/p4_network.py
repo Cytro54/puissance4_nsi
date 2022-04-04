@@ -11,7 +11,7 @@ def __yuri_rpc_attendre_frame(socket):
     ## ATTENTION : Cette fonction bloque le thread sur lequel elle est executée
     frame = bytearray()
     while True:
-        data = conn.recv(TAILLE_BUFFER)
+        data = socket.recv(TAILLE_BUFFER)
         if not data: 
             break
         else:
@@ -37,7 +37,7 @@ def __yuri_rpc_attendre_frame(socket):
 
 def __yuri_rpc_decompose_frame(frame):
     buff = bytearray()
-    for b in bytes_:
+    for b in frame:
         if b == SEPARATEUR:
             yield buff.decode('utf-8')
             buff = bytearray()
@@ -52,32 +52,51 @@ def __yuri_rpc_message_depuis_frame(frame):
     message = {}
     for line in __yuri_rpc_decompose_frame(frame):
         if is_key: 
-            keybuf = line
+            key_buffer = line
         else: 
             message.update({key_buffer: line})
         is_key = not is_key
     return message
 
 def __yuri_rpc_message_vers_frame(message):
-    stream = []
+    stream = bytearray()
+    i = len(message)
+    y = 1
     for key in message:
         # Ajouter une ligne
-        stream.append(key)
-        stream.append(message[key])
-    
-    return bytearray(SEPARATEUR.join(stream), 'utf-8')
+        stream += bytes(key, 'utf-8')
+        stream += SEPARATEUR
+        stream += bytes(message[key], 'utf-8')
+        if not (i == y):
+            stream += SEPARATEUR
+            y += 1
+    return stream
 
 class YuriRPCClient:
     def __init__(self):
-
+        pass
+    
     async def connecter(self, addresse):
+        pass
 
     async def appler(self, nom, parametres):
-
+        pass
 class YuriRPCServer:
     def __init__(self):
-
+        pass
 
     async def ecouter(self, port):
+        pass
 
     def ajouter_fn(self, nom, fonction):
+        pass
+
+if __name__ == "__main__":
+    # Quelques Asserts
+    message_a_encoder = {'test': 'value', 'cool': 'code'}
+    frame = __yuri_rpc_message_vers_frame(message_a_encoder)
+    message_decode = __yuri_rpc_message_depuis_frame(frame)
+    print(message_a_encoder)
+    print(message_decode)
+    assert message_a_encoder == message_decode
+       
