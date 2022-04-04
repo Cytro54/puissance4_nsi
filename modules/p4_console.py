@@ -1,7 +1,6 @@
 #variables principales
 j1 = {}
 j2 = {}
-nb_joueurs = 0
 
 
 
