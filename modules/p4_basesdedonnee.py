@@ -3,7 +3,7 @@ import sqlite3
 class p4_basesdedonnee():
     def __init__(self):
         self.conn = sqlite3.connect('base_de_donnees.db')
-        self.cur = conn.cursor()
+        self.cur = self.conn.cursor()
         
 
     def ajoutdejoueuroumodificationdelabasededonee(self, nom_joueur, score):
