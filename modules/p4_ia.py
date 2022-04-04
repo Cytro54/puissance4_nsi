@@ -36,11 +36,11 @@ def __estimer_avantage_vectoriel(
     try:
         case = plateau[ligne][colonne]
     except IndexError:
-        # En dehors du plateau ? ; la ligne s'arette ici.
+        # En dehors du plateau ? ; la ligne s'arrete ici.
         return (somme, norme_vecteur)
 
     if case != CASE_NEUTRE and case != joueur:
-        # Si la case est pas neutre ou de nous, alors la ligne s'arette ici. 
+        # Si la case est pas neutre ou de nous, alors la ligne s'arrete ici. 
         return (somme, norme_vecteur)
 
     if case == joueur:

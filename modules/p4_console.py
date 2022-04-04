@@ -2,9 +2,6 @@
 j1 = {}
 j2 = {}
 
-
-
-
 from p4_game import *
 
 class p4_console:
