@@ -74,8 +74,11 @@ class joueur:
                 type_de_jeu = int(input())
                 if type_de_jeu != 1 or type_de_jeu != 2:
                     print("erreur")
+            #marche pas encore
             if type_de_jeu == 1:
-                print("marche pas encore")         
+                print("marche pas encore")     
+                type_de_jeu == 2    
+            #jcj local
             if type_de_jeu == 2:
                 j1["nom"] = input("nom du joueur 1 :")
                 j2["nom"] = input("nom du joueur 2 :")
@@ -93,9 +96,10 @@ class joueur:
                 motif2 = lmotif[int(input())]
                 j1["motif"] = motif1
                 j2["motif"] = motif2
-
-
-
+    def modif_score(self,jeu):
+        a, b = jeu.getscore()
+        j1["score"] = a
+        j2["score"] = b
 
 
 
