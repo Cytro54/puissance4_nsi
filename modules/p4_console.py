@@ -33,7 +33,7 @@ class p4_console:
         print("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━┛")
 
 #classe joueur
-class joueur:
+class classejoueur:
     def __init__(self):
         pass
 
