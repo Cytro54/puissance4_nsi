@@ -103,6 +103,7 @@ class joueur:
                 motif2 = lmotif[int(input())]
                 j1["motif"] = motif1
                 j2["motif"] = motif2
+        return nb_joueurs
     def modif_score(self,jeu):
         '''
         modifie les scores

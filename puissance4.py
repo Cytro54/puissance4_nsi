@@ -18,11 +18,14 @@ p4c = P4_console()
 p4j = joueur()
 p4b = p4_basesdedonnee()
 p4g.jeu()
-p4j.debut_jeu()
-while finpartie is not True:
-    p4c.affiche()
-    a = p4g.commetuveux()
-    p4c.jouer(p4g, a)
-    finpartie = p4g.victoire()
+y = p4j.debut_jeu()
+if y == 1:
+    pass
+if y == 3:
+    while finpartie is not True:
+        p4c.affiche()
+        a = p4g.commetuveux()
+        p4c.jouer(p4g, a)
+        finpartie = p4g.victoire()
 p4j.modif_score()
 p4b.recupererlesmeilleursscores()
