@@ -97,3 +97,8 @@ class P4_game():
         """
         return (self.j1_score, self.j2_score)
 
+    def commetuveux(self):
+        if self.tour % 2 == 0:
+            print("c'est au tour du joueur 1")
+        else:
+            print("cest au tour du joueur 2")
