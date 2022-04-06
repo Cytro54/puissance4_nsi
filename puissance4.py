@@ -23,8 +23,6 @@ while finpartie is not True:
     p4c.affiche()
     a = p4g.commetuveux()
     p4c.jouer(p4g, a)
-
-    if z == 
-        finpartie == True
+    finpartie = p4g.victoire()
 p4j.modif_score()
 p4b.recupererlesmeilleursscores()

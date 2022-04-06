@@ -55,12 +55,12 @@ class joueur:
         fait ce qui se passe au debut du jeu
         '''
         nb_joueurs = 0
-        while nb_joueurs != 1 or nb_joueurs != 2 :
+        while nb_joueurs != 1 or nb_joueurs != 2 or nb_joueurs != 3:
             print("Mode de jeux :")
             print("1: joueur contre IA")
             print("2: joueur contre joueur")
             nb_joueurs = int(input())
-            if nb_joueurs != 1 or nb_joueurs != 2:
+            if nb_joueurs != 1 or nb_joueurs != 2 or nb_joueurs != 3:
                 print("erreur")
         #si il y a 1 joueur contre une IA
         if nb_joueurs == 1 :
@@ -81,33 +81,25 @@ class joueur:
             j1["motif"] = motif1
             j2["motif"] = motif2
         #si il y a 2 joueurs, demande is le jeu est en ligne ou en local
-        if nb_joueurs == 2 :
-            while nb_joueurs != 1 or nb_joueurs != 2 :
-                print("Mode de jeux :")
-                print("1: en ligne")
-                print("2: en local")
-                type_de_jeu = int(input())
-                if type_de_jeu != 1 or type_de_jeu != 2:
-                    print("erreur")
             #marche pas encore
-            if type_de_jeu == 1:
-                print("marche pas encore")     
-                type_de_jeu == 2    
-            #jcj local
-            if type_de_jeu == 2:
-                j1["nom"] = input("nom du joueur 1 :")
-                j2["nom"] = input("nom du joueur 2 :")
-                j1["score"] = 0
-                j2["score"] = 0
-                lmotif = ["⯀","⯁","⯂","⯄","⯅"]
-                print("motif du joueur 1 :")
-                for i in range(len(lmotif)):
-                    print(f"{i} : {lmotif[i]}")
-                motif1 = lmotif[int(input())]
-                lmotif.remove(motif1)
-                print("motif du joueur 2 :")
-                for i in range(len(lmotif)):
-                    print(f"{i} : {lmotif[i]}")
+        if nb_joueurs == 3:
+            print("marche pas encore")     
+        nb_joueurs == 2    
+        #jcj local
+        if nb_joueurs == 2:
+            j1["nom"] = input("nom du joueur 1 :")
+            j2["nom"] = input("nom du joueur 2 :")
+            j1["score"] = 0
+            j2["score"] = 0
+            lmotif = ["⯀","⯁","⯂","⯄","⯅"]
+            print("motif du joueur 1 :")
+            for i in range(len(lmotif)):
+                print(f"{i} : {lmotif[i]}")
+            motif1 = lmotif[int(input())]
+            lmotif.remove(motif1)
+            print("motif du joueur 2 :")
+            for i in range(len(lmotif)):
+                print(f"{i} : {lmotif[i]}")
                 motif2 = lmotif[int(input())]
                 j1["motif"] = motif1
                 j2["motif"] = motif2
