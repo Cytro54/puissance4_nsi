@@ -34,9 +34,16 @@ class P4_console:
         print("┃━━━━━━━━━━━━━━━━━━━━━━━━━━━┃")
         print("┃ 1 ┃ 2 ┃ 3 ┃ 4 ┃ 5 ┃ 6 ┃ 7 ┃")
         print("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━┛")
+    def jouer(self,j,c,joueur):
+        if joueur == "j1" :
+            print(f"choisir une colonne où placer le jeton de {j1['nom']}")
+        if joueur == "j2" :
+            print(f"choisir une colonne où placer le jeton de {j2['nom']}")
+        c = int(input())
+        j.placer(c)
 
 #classe joueur
-class classejoueur:
+class joueur:
     '''
     classe qui gere les joueurs
     '''

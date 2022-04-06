@@ -99,6 +99,6 @@ class P4_game():
 
     def commetuveux(self):
         if self.tour % 2 == 0:
-            print("c'est au tour du joueur 1")
+            return "j1"
         else:
-            print("cest au tour du joueur 2")
+            return "j2"
