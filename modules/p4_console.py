@@ -6,7 +6,7 @@ from p4_game import *
 from p4_basesdedonnee import *
 
 
-class p4_console:
+class p4console:
     def __init__(self):
         pass
     #affiche le plateau de jeu
