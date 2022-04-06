@@ -19,18 +19,10 @@ class p4_basesdedonnee():
         listescore = self.cur.fetchall()
         return listescore
 
-    def supprimer(self,trucasupprimer):
-        suppr = trucasupprimer
-        self.cur.execute('DELETE FROM TOP_SCORE WHERE nom = ?', suppr)
-        self.conn.commit()
+
 
 
     def fin_programme(self):
         self.cur.close()
         self.conn.close()
 
-b1 = p4_basesdedonnee()
-b1.ajoutdejoueuroumodificationdelabasededonee("josh", 12)
-print(b1.recupererlesmeilleursscores())
-b1.supprimer("josh")
-b1.fin_programme()
