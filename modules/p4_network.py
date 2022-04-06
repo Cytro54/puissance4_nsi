@@ -7,6 +7,7 @@ import socket
 import socketserver
 from subprocess import call
 import threading
+import time
 
 TAILLE_BUFFER = 1024
 SEPARATEUR = b'&'
@@ -31,44 +32,55 @@ SEPARATEUR_INT = 38
 # 
 CODEC = 'utf-8'
 
-def __message_depuis_frame(frame):
-    return json.load(frame.decode(CODEC))
+def message_depuis_frame(frame):
+    return json.loads(frame.decode(CODEC))
 
-def __message_vers_frame(message):
+def message_vers_frame(message):
     string = json.dumps(message)
     return bytes(string, CODEC)
 
-def __attendre_frame(socket):
+def attendre_frame(socket):
     ## ATTENTION : Cette fonction bloque le thread sur lequel elle est executée
     frame = bytearray()
     while True:
+        print(frame)
         data = socket.recv(TAILLE_BUFFER)
         if not data:
             break
         else:
-            frame.append(data)
+            frame += data
+            if frame.find(b'\n') != -1:
+                frame = frame.replace(b'\n', b'')
+                break
     return frame 
 
+def envoyer_frame(socket, bytes):
+    socket.sendall(bytes)
+    socket.sendall(b'\n')
+
 class YuriRPCServerGenericHandler(socketserver.BaseRequestHandler):
-    def __init__(self, options):
-        super().__init__(self)
-        self._opts = options
+    def __init__(self, magic1, magic2, magic3):
+        socketserver.BaseRequestHandler.__init__(self, magic1, magic2, magic3)
         self._codec = 'utf-8'
 
     def handle(self):
         # self.request is the TCP socket connected to the client
-        frame = __attendre_frame(self.request)
-        message = __message_depuis_frame(frame)
+        frame = attendre_frame(self.request)
+        message = message_depuis_frame(frame)
         # Interpretons le message
         method = message.get('method', None)
         params = message.get('params', None)
         call_id = message.get('id', None)
         if method != None and params != None and call_id != None:
             py_method = f"do_{method}"
-            res = self[py_method](*params)
-            message = {'id': call_id, 'response': res}
-            frame = __message_vers_frame(message)
-            self.request.sendall(frame)
+            py_method = getattr(self, py_method)
+            if params == []:
+                res = py_method()
+            else:
+                res = py_method(*params)
+            message = {'id': call_id, 'reponse': res}
+            frame = message_vers_frame(message)
+            envoyer_frame(self.request, frame)
         else:
             # Message invalide, droppons le
             pass
@@ -85,18 +97,19 @@ class YuriRPCClient():
         
         # 1. Envoyer le message
         message_a_encoder = {'method': method, 'params': parameters, 'id': self._increment}
-        frame = __message_vers_frame(message_a_encoder)
-        self._socket.sendall(frame)
+        frame = message_vers_frame(message_a_encoder)
+        envoyer_frame(self._socket, frame)
 
         # (On attend que ca bosse)
 
         # 2. Attendre le message retour
-        frame = __attendre_frame(self._socket)
-        message = __message_depuis_frame(frame)
+        frame = attendre_frame(self._socket)
+        message = message_depuis_frame(frame)
 
         # 3. Interpretons le message
         reponse = message.get('reponse', None)
         call_id = message.get('id', None)
+        print(message)
         if reponse != None and call_id != None and call_id == self._increment:
             return reponse
         else:
@@ -112,7 +125,7 @@ class YuriRPCServerThread(threading.Thread):
 
     def run(self):
         with socketserver.TCPServer((self._host, self._port), self._handler_class) as server:
-            server.serve_forever()
+            server.serve_forever(15)
 
 
 if __name__ == "__main__":
@@ -120,8 +133,8 @@ if __name__ == "__main__":
 
     # 1. Test de sanité
     message_a_encoder = {'test': 'value', 'cool': 'code'}
-    frame = __message_vers_frame(message_a_encoder)
-    message_decode = __message_depuis_frame(frame)
+    frame = message_vers_frame(message_a_encoder)
+    message_decode = message_depuis_frame(frame)
     print("A encoder :")
     print(message_a_encoder)
     print("Décodé :")
@@ -131,14 +144,17 @@ if __name__ == "__main__":
     # 2. Tests + Avancés
 
     class TestYuriRPCServer(YuriRPCServerGenericHandler):
-        def do_ping():
+        def do_ping(self):
             return 'pong'
 
-        def do_echo(message):
+        def do_echo(self, message):
             return message
 
-    server_thread = YuriRPCServerThread('0.0.0.0', 9999, TestYuriRPCServer)
+    server_thread = YuriRPCServerThread('0.0.0.0', 8782, TestYuriRPCServer)
     server_thread.start()
+    time.sleep(2)
     
-    client = YuriRPCClient('localhost', 9999)
+    client = YuriRPCClient('localhost', 8782)
+    print(client.call('ping', []))
     assert client.call('ping', []) == 'pong'
+    print("call réussi")
