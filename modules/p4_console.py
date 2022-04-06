@@ -100,6 +100,3 @@ class joueur:
         a, b = jeu.getscore()
         j1["score"] = a
         j2["score"] = b
-
-
-
