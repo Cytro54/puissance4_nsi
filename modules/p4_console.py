@@ -7,6 +7,9 @@ from p4_basesdedonnee import *
 
 
 class P4_console:
+    '''
+    classe qui fait des trucs comme afficher le plateau et c'est tout
+    '''
     def __init__(self):
         pass
     #affiche le plateau de jeu
@@ -34,11 +37,16 @@ class P4_console:
 
 #classe joueur
 class classejoueur:
+    '''
+    classe qui gere les joueurs
+    '''
     def __init__(self):
         pass
 
     def debut_jeu(self):
-        #fait ce qui se passe au debut du jeu
+        '''
+        fait ce qui se passe au debut du jeu
+        '''
         nb_joueurs = 0
         while nb_joueurs != 1 or nb_joueurs != 2 :
             print("Mode de jeux :")
@@ -97,6 +105,9 @@ class classejoueur:
                 j1["motif"] = motif1
                 j2["motif"] = motif2
     def modif_score(self,jeu):
+        '''
+        modifie les scores
+        '''
         a, b = jeu.getscore()
         j1["score"] = a
         j2["score"] = b
