@@ -6,7 +6,6 @@ nb_col = 7 # largeur du plateau
 nb_winer_line = 4 
 nb_joueurs = 2
 vide, j1, j2 = 0, 1, 2 # diférenciation des cases du joueur1, du joueur 2 et des cases vides
-j1_score, j2_score = 0, 0
 
 class P4_game():
     """
@@ -15,7 +14,8 @@ class P4_game():
     def __init__(self):
         self.plateau = []
         self.tour = 0 #si le tour est un nombre paire le joueur 1 joue, sinon c'est le joueur 2 qui joue  
-
+        self.j1_score = 0
+        self.j2_score = 0
 
 
     def jeu(self):
@@ -77,9 +77,16 @@ class P4_game():
         return (self.tour, self.plateau)
 
     def victoire(self):
+        """
+        fonction qui va définir si le joueur 1 à gagné ou perdu
+        """
         if self.tour % 2 == 0: #tour du joueur 1
+            if p4_ia.a_gagne(self, 1) == True:
+                self.j1_score += 1
             return p4_ia.a_gagne(self, 1)
         else: #tour du joueur 2
+            if p4_ia.a_gagne(self, 2) == True:
+                self.j2_score += 1
             return p4_ia.a_gagne(self, 2)
 
 
@@ -89,3 +96,4 @@ class P4_game():
         renvoie le score des deux joueurs
         """
         return (self.j1_score, self.j2_score)
+
