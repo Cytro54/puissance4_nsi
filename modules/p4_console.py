@@ -2,6 +2,7 @@
 j1 = {}
 j2 = {}
 
+
 from p4_game import *
 from p4_basesdedonnee import *
 
