@@ -37,4 +37,6 @@ if y == 3:
         p4c.jouer(p4g, a)
         finpartie = p4g.victoire()
 p4j.modif_score()
+p4b.ajoutdejoueuroumodificationdelabasededonee(j1['nom'], j1['score'])
+p4b.ajoutdejoueuroumodificationdelabasededonee(j2['nom'], j2['score'])
 p4b.recupererlesmeilleursscores()
