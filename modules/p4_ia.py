@@ -149,6 +149,15 @@ def calculer_meilleur_move(game, difficulte, joueur_ia):
         return col - 1
 
 def a_gagne(game, joueur):
+    """
+    Verifie si le joueur précisé a gagné
+
+    Entree :
+     - `game`: Object 'P4_game'
+     - `joueur`: Le "numero de joueur" sur lequel on vérifie si il n'ya pas victoire.
+
+    Sortie : Un boolean représentant si le joueur a gagné.
+    """
     try:
         plateau = __dump_plateau(game)
         _avantage = __estimer_avantages(plateau, joueur)
@@ -227,3 +236,10 @@ if __name__ == "__main__":
 
     print(" == Autre jeu == ")
     assert_avantage(PLATEAU_3, 1)
+
+
+    # Tests d'intégration avec le module p4Game
+    import p4_game
+    g = p4_game.P4_game()
+    print(__dump_plateau(g))
+    g.victoire()
