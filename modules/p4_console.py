@@ -34,13 +34,16 @@ class P4_console:
         print("┃━━━━━━━━━━━━━━━━━━━━━━━━━━━┃")
         print("┃ 1 ┃ 2 ┃ 3 ┃ 4 ┃ 5 ┃ 6 ┃ 7 ┃")
         print("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━┛")
-    def jouer(self,j,c,joueur):
+    def jouer(self,j,joueur):
         if joueur == "j1" :
             print(f"choisir une colonne où placer le jeton de {j1['nom']}")
         if joueur == "j2" :
             print(f"choisir une colonne où placer le jeton de {j2['nom']}")
         c = int(input())
         j.placer(c)
+    def jouer_ai(self,j,c):
+        j.placer(c)
+
 
 #classe joueur
 class joueur:
@@ -58,7 +61,8 @@ class joueur:
         while nb_joueurs != 1 or nb_joueurs != 2 or nb_joueurs != 3:
             print("Mode de jeux :")
             print("1: joueur contre IA")
-            print("2: joueur contre joueur")
+            print("2: joueur contre joueur en local")
+            print("3: joueur contre joueur en ligne")
             nb_joueurs = int(input())
             if nb_joueurs != 1 or nb_joueurs != 2 or nb_joueurs != 3:
                 print("erreur")
@@ -80,11 +84,23 @@ class joueur:
             motif2 = lmotif[int(input())]
             j1["motif"] = motif1
             j2["motif"] = motif2
+            diff = 0
+            while diff != 1 or diff != 2:
+                print("difficultée de l'IA")
+                print("1 : facile")
+                print("2 : difficile")
+                diff = int(input())
+                if diff != 1 or diff != 2:
+                    print("erreur")
+            if diff == 1:
+                return nb_joueurs, 1
+            if diff == 2:
+                return nb_joueurs, 0
         #si il y a 2 joueurs, demande is le jeu est en ligne ou en local
             #marche pas encore
         if nb_joueurs == 3:
-            print("marche pas encore")     
-        nb_joueurs == 2    
+            print("marche pas encore donc c'est du 1v1 en local")     
+            nb_joueurs == 2    
         #jcj local
         if nb_joueurs == 2:
             j1["nom"] = input("nom du joueur 1 :")
@@ -103,7 +119,7 @@ class joueur:
                 motif2 = lmotif[int(input())]
                 j1["motif"] = motif1
                 j2["motif"] = motif2
-        return nb_joueurs
+            return nb_joueurs
     def modif_score(self,jeu):
         '''
         modifie les scores

@@ -18,9 +18,18 @@ p4c = P4_console()
 p4j = joueur()
 p4b = p4_basesdedonnee()
 p4g.jeu()
-y = p4j.debut_jeu()
+y, diff= p4c.debut_jeu()
 if y == 1:
-    pass
+    while finpartie is not True:
+        p4c.affiche()
+        p4c.jouer(p4g, "j1")
+        finpartie = p4g.victoire()
+        c = calculer_meilleur_move(p4g,diff,2)
+        p4c.jouer_ai(p4g, c)
+        finpartie = p4g.victoire()
+if y == 2:
+    print("marche pas encore")
+
 if y == 3:
     while finpartie is not True:
         p4c.affiche()
