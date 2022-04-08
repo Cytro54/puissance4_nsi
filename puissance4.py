@@ -18,7 +18,7 @@ p4c = P4_console()
 p4j = joueur()
 p4b = p4_basesdedonnee()
 p4g.jeu()
-y, diff= p4c.debut_jeu()
+y, diff= p4j.debut_jeu()
 if y == 1:
     while finpartie is not True:
         p4c.affiche()

@@ -58,13 +58,13 @@ class joueur:
         fait ce qui se passe au debut du jeu
         '''
         nb_joueurs = 0
-        while nb_joueurs != 1 or nb_joueurs != 2 or nb_joueurs != 3:
+        while nb_joueurs != 1 and nb_joueurs != 2 and nb_joueurs != 3:
             print("Mode de jeux :")
             print("1: joueur contre IA")
             print("2: joueur contre joueur en local")
             print("3: joueur contre joueur en ligne")
             nb_joueurs = int(input())
-            if nb_joueurs != 1 or nb_joueurs != 2 or nb_joueurs != 3:
+            if nb_joueurs != 1 and nb_joueurs != 2 and nb_joueurs != 3:
                 print("erreur")
         #si il y a 1 joueur contre une IA
         if nb_joueurs == 1 :
@@ -85,7 +85,7 @@ class joueur:
             j1["motif"] = motif1
             j2["motif"] = motif2
             diff = 0
-            while diff != 1 or diff != 2:
+            while diff != 1 and diff != 2:
                 print("difficultée de l'IA")
                 print("1 : facile")
                 print("2 : difficile")
@@ -119,7 +119,7 @@ class joueur:
                 motif2 = lmotif[int(input())]
                 j1["motif"] = motif1
                 j2["motif"] = motif2
-            return nb_joueurs
+            return nb_joueurs, "ahahahahahah"
     def modif_score(self,jeu):
         '''
         modifie les scores
