@@ -1,5 +1,6 @@
 import pathlib
 import site
+from turtle import clear
 
 # Python je te hais de maniére passionelle; je suis pas censé faire ca :(
 relative_home = pathlib.Path(__file__).parent.absolute()
@@ -35,7 +36,7 @@ if y == 3:
         a = p4g.commetuveux()
         p4c.jouer(p4g, a)
         finpartie = p4g.victoire()
-p4c.modif_score()
+p4c.modif_score(p4g)
 p4b.ajoutdejoueuroumodificationdelabasededonee(p4c.j1['nom'], p4c.j1['score'])
 p4b.ajoutdejoueuroumodificationdelabasededonee(p4c.j2['nom'], p4c.j2['score'])
 p4b.recupererlesmeilleursscores()
