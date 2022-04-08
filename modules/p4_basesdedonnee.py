@@ -17,7 +17,7 @@ class p4_basesdedonnee():
         self.cur.execute('SELECT * FROM TOP_SCORE')
         self.conn.commit()
         listescore = self.cur.fetchall()
-        return listescore
+        print(listescore)
 
 
 

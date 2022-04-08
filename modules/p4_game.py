@@ -22,6 +22,7 @@ class P4_game():
         """
         création du plateau de jeu
         """
+        self.plateau = []
         for _ in range(nb_line):
             nvline = []
             for _ in range(nb_col):
@@ -97,3 +98,8 @@ class P4_game():
         """
         return (self.j1_score, self.j2_score)
 
+    def commetuveux(self):
+        if self.tour % 2 == 0:
+            return "j1"
+        else:
+            return "j2"
