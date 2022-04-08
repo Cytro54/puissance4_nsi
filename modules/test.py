@@ -1,8 +1,8 @@
 plateau = []
 tour = 0
-for _ in range(7):
+for _ in range(6):
     nvline = []
-    for _ in range(6):
+    for _ in range(7):
         nvline.append(0)
     plateau.append(nvline)
 
