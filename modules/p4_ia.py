@@ -106,11 +106,11 @@ def __estimer_avantages(plateau, joueur):
     return somme
 
 def __dump_plateau(game):
-    tableau = [[0 for col in range(COLONNES)] for ligne in range(LIGNES)]
-    for ligne in range(0, LIGNES):
-        for col in range(0, COLONNES):
-            tableau[ligne][col] = game.get_case(ligne - 1, col - 1)
-    return tableau
+    # Vu que la classe de plateau est aussi stable que la syrie, 
+    # cette fonction risque de bouger souvent
+    # (en gros, elle dump le plateau depuis les sombres objects de yanis 
+    # ma propre représentation, tout aussi bizarre)
+    return game.plateau
 
 def __mix_max(game, joueur):
     meilleur_avantage = 0
@@ -241,5 +241,6 @@ if __name__ == "__main__":
     # Tests d'intégration avec le module p4Game
     import p4_game
     g = p4_game.P4_game()
-    print(__dump_plateau(g))
-    g.victoire()
+    g.jeu()
+    print(__dump_plateau(g)) # VERUFIER LES LONGEURS
+    
