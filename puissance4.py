@@ -27,15 +27,17 @@ if y == 1:
         c = calculer_meilleur_move(p4g,diff,2)
         p4c.jouer_ai(p4g, c)
         finpartie = p4g.victoire()
-if y == 2:
-    print("marche pas encore")
 
-if y == 3:
+if y == 2:
     while finpartie is not True:
         p4c.affiche(plateau)
         a = p4g.commetuveux()
         p4c.jouer(p4g, a)
         finpartie = p4g.victoire()
+
+if y == 3:
+    print("marche pas encore")
+
 p4c.modif_score(p4g)
 p4b.ajoutdejoueuroumodificationdelabasededonee(p4c.j1['nom'], p4c.j1['score'])
 p4b.ajoutdejoueuroumodificationdelabasededonee(p4c.j2['nom'], p4c.j2['score'])

@@ -51,7 +51,7 @@ class P4_console:
             print("2: joueur contre joueur en local")
             print("3: joueur contre joueur en ligne")
             nb_joueurs = int(input())
-            if nb_joueurs != 1 or nb_joueurs != 2 or nb_joueurs != 3:
+            if nb_joueurs > 3:
                 print("erreur")
         #si il y a 1 joueur contre une IA
         if nb_joueurs == 1 :
