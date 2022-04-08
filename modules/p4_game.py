@@ -23,9 +23,9 @@ class P4_game():
         création du plateau de jeu rn 6*7
         """
         self.plateau = []
-        for _ in range(nb_line):
+        for _ in range(nb_col):
             nvline = []
-            for _ in range(nb_col):
+            for _ in range(nb_line):
                 nvline.append(0)
             self.plateau.append(nvline)
 
