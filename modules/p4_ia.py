@@ -109,7 +109,7 @@ def __dump_plateau(game):
     tableau = [[0 for col in range(COLONNES)] for ligne in range(LIGNES)]
     for ligne in range(0, LIGNES):
         for col in range(0, COLONNES):
-            tableau[ligne][col] = game.get_case(ligne, col)
+            tableau[ligne][col] = game.get_case(ligne - 1, col - 1)
     return tableau
 
 def __mix_max(game, joueur):
@@ -141,10 +141,12 @@ def calculer_meilleur_move(game, difficulte, joueur_ia):
     Sortie : Le numero de colonne sur lequel il faut placer le pion controllé par l'IA
     """
     if difficulte == DIFFICULTE_ALEATOIRE:
-        return random.randint(0, COLONNES)
+        return random.randint(0, COLONNES - 1)
     
     if difficulte == DIFFICULTE_FACILE:
-        return __mix_max(game, joueur_ia)
+        col = __mix_max(game, joueur_ia)
+        print(col)
+        return col - 1
 
 def a_gagne(game, joueur):
     try:

@@ -3,15 +3,17 @@
 # implémenté pour faire fonctionner le tout
 
 import json
+from random import randint
 import socket
 import socketserver
 from subprocess import call
+import sys
 import threading
 import time
+from tkinter import SEPARATOR
 
 TAILLE_BUFFER = 1024
-SEPARATEUR = b'&'
-SEPARATEUR_INT = 38
+
 
 
 #
@@ -31,6 +33,7 @@ SEPARATEUR_INT = 38
 # }
 # 
 CODEC = 'utf-8'
+SEPARATOR = b'@@@'
 
 def message_depuis_frame(frame):
     return json.loads(frame.decode(CODEC))
@@ -43,20 +46,15 @@ def attendre_frame(socket):
     ## ATTENTION : Cette fonction bloque le thread sur lequel elle est executée
     frame = bytearray()
     while True:
-        print(frame)
         data = socket.recv(TAILLE_BUFFER)
+        frame += data
+        if frame.endswith(SEPARATOR):
+            return frame.replace(SEPARATOR, b'')
         if not data:
-            break
-        else:
-            frame += data
-            if frame.find(b'\n') != -1:
-                frame = frame.replace(b'\n', b'')
-                break
-    return frame 
+            return None
 
 def envoyer_frame(socket, bytes):
-    socket.sendall(bytes)
-    socket.sendall(b'\n')
+    socket.sendall(bytes + SEPARATOR)
 
 class YuriRPCServerGenericHandler(socketserver.BaseRequestHandler):
     def __init__(self, magic1, magic2, magic3):
@@ -64,26 +62,28 @@ class YuriRPCServerGenericHandler(socketserver.BaseRequestHandler):
         self._codec = 'utf-8'
 
     def handle(self):
-        # self.request is the TCP socket connected to the client
-        frame = attendre_frame(self.request)
-        message = message_depuis_frame(frame)
-        # Interpretons le message
-        method = message.get('method', None)
-        params = message.get('params', None)
-        call_id = message.get('id', None)
-        if method != None and params != None and call_id != None:
-            py_method = f"do_{method}"
-            py_method = getattr(self, py_method)
-            if params == []:
-                res = py_method()
+        while True:
+            # self.request is the TCP socket connected to the client
+            frame = attendre_frame(self.request)
+            message = message_depuis_frame(frame)
+            print(message)
+            # Interpretons le message
+            method = message.get('method', None)
+            params = message.get('params', None)
+            call_id = message.get('id', None)
+            if method != None and params != None and call_id != None:
+                py_method = f"do_{method}"
+                py_method = getattr(self, py_method)
+                if params == []:
+                    res = py_method()
+                else:
+                    res = py_method(*params)
+                message = {'id': call_id, 'reponse': res}
+                frame = message_vers_frame(message)
+                envoyer_frame(self.request, frame)
             else:
-                res = py_method(*params)
-            message = {'id': call_id, 'reponse': res}
-            frame = message_vers_frame(message)
-            envoyer_frame(self.request, frame)
-        else:
-            # Message invalide, droppons le
-            pass
+                # Message invalide, droppons le
+                pass
 
 class YuriRPCClient():
     def __init__(self, host, port):
@@ -104,6 +104,8 @@ class YuriRPCClient():
 
         # 2. Attendre le message retour
         frame = attendre_frame(self._socket)
+        if frame is None:
+            raise RuntimeError(f"Erreur RPC; (Appel {self._increment}) Connexion casée")
         message = message_depuis_frame(frame)
 
         # 3. Interpretons le message
@@ -150,11 +152,14 @@ if __name__ == "__main__":
         def do_echo(self, message):
             return message
 
-    server_thread = YuriRPCServerThread('0.0.0.0', 8782, TestYuriRPCServer)
+    port = randint(8000, 9000)
+
+    server_thread = YuriRPCServerThread('0.0.0.0', port, TestYuriRPCServer)
     server_thread.start()
     time.sleep(2)
     
-    client = YuriRPCClient('localhost', 8782)
-    print(client.call('ping', []))
+    client = YuriRPCClient('localhost', port)
     assert client.call('ping', []) == 'pong'
+    assert client.call('echo', ['value']) == 'value'
     print("call réussi")
+    sys.exit(0)
