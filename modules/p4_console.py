@@ -37,9 +37,9 @@ class P4_console:
         if joueur == "j2" :
             print(f"choisir une colonne où placer le jeton de {self.j2['nom']}")
         c = int(input())
-        j.placer(c)
+        j.placer(c-1)
     def jouer_ai(self,j,c):
-        j.placer(c)
+        j.placer(c-1)
     def debut_jeu(self):
         '''
         fait ce qui se passe au debut du jeu
@@ -103,14 +103,14 @@ class P4_console:
             print("motif du joueur 2 :")
             for i in range(len(lmotif)):
                 print(f"{i} : {lmotif[i]}")
-                motif2 = lmotif[int(input())]
-                self.j1["motif"] = motif1
-                self.j2["motif"] = motif2
+            motif2 = lmotif[int(input())]
+            self.j1["motif"] = motif1
+            self.j2["motif"] = motif2
             return nb_joueurs, "ahahahahahah"
     def modif_score(self,jeu):
         '''
         modifie les scores
         '''
-        a, b = jeu.getscore()
+        a, b = jeu.get_score()
         self.j1["score"] = a
         self.j2["score"] = b
