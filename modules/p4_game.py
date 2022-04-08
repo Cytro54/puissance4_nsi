@@ -20,7 +20,7 @@ class P4_game():
 
     def jeu(self):
         """
-        création du plateau de jeu
+        création du plateau de jeu rn 6*7
         """
         self.plateau = []
         for _ in range(nb_line):
@@ -57,7 +57,7 @@ class P4_game():
         entrée: le numéro de la colonne
         sortie: le jeton correspondant au joueurs 1 ou 2 serra ajouté au dessus des autres jetons de la colonne
         """
-        if self.jeu_possible() == False:
+        if self.jeu_possible(col) == False:
             print("la colonne est pleine")
 
         elif self.tour % 2 == 0:
