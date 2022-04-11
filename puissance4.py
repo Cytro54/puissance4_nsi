@@ -1,44 +1,72 @@
 import pathlib
 import site
-from turtle import clear
 
 # Python je te hais de maniére passionelle; je suis pas censé faire ca :(
+# (Ceci est une sorte de hack pas fou)
 relative_home = pathlib.Path(__file__).parent.absolute()
 module_home = relative_home.joinpath("modules")
 site.addsitedir(module_home)
 
+# -----------------------------------------------
 
 from modules.p4_basesdedonnee import *
 from modules.p4_console import *
 from modules.p4_game import *
 from modules.p4_ia import *
 from modules.p4_network import *
-finpartie = False
-p4g = P4_game()
-p4c = P4_console()
-p4b = p4_basesdedonnee()
-plateau = p4g.jeu()
-y, diff= p4c.debut_jeu()
-if y == 1:
-    while finpartie is not True:
-        p4c.affiche(plateau)
-        p4c.jouer(p4g, "j1")
-        finpartie = p4g.victoire()
-        c = calculer_meilleur_move(p4g,diff,2)
-        p4c.jouer_ai(p4g, c)
-        finpartie = p4g.victoire()
 
-if y == 2:
-    while finpartie is not True:
-        p4c.affiche(plateau)
-        a = p4g.commetuveux()
-        p4c.jouer(p4g, a)
-        finpartie = p4g.victoire()
+def main():
+    fin_partie = False
+    game = P4_game()
+    console = P4_console()
+    db = p4_basesdedonnee()
+    mode_de_jeu, difficulte = console.debut_jeu()
+    
+    if mode_de_jeu == 1:
+        while fin_partie is not True:
+            # Mise a jour de l'affichage
+            console.modif_score(game)
+            console.affiche(game.plateau_ligne_par_ligne())
+            
+            # Faire jouer le joueur
+            while True:
+                colonne = console.demander_colonne(1)
+                if game.jeu_possible(colonne):
+                    game.placer(colonne)
+                    break
 
-if y == 3:
-    print("marche pas encore")
+            fin_partie = game.victoire()
+        
+            # Faire jouer l'IA
+            colonne = calculer_meilleur_move(game, difficulte, 2)
+            if not game.jeu_possible(colonne):
+                raise RuntimeError("Uh Oh: , l'IA a tentée de jouer sur une colonne interdite")
+            game.placer(colonne)
 
-p4c.modif_score(p4g)
-p4b.ajoutdejoueuroumodificationdelabasededonee(p4c.j1['nom'], p4c.j1['score'])
-p4b.ajoutdejoueuroumodificationdelabasededonee(p4c.j2['nom'], p4c.j2['score'])
-p4b.recupererlesmeilleursscores()
+            fin_partie = game.victoire()
+
+    if mode_de_jeu == 2:
+        while fin_partie is not True:
+            # Mise a jour de l'affichage
+            console.modif_score(game)
+            console.affiche(game.plateau_ligne_par_ligne())
+
+            # Faire jouer le joueur
+            while True:
+                tour = game.get_tour()
+                colonne = console.demander_colonne(tour)
+                if game.jeu_possible(colonne):
+                    game.placer(colonne)
+                    break
+            
+            fin_partie = game.victoire()
+
+    if mode_de_jeu == 3:
+        print("marche pas encore")
+
+main()
+
+#console.modif_score(game)
+#db.ajoutdejoueuroumodificationdelabasededonee(console.j1['nom'], console.j1['score'])
+#db.ajoutdejoueuroumodificationdelabasededonee(console.j2['nom'], console.j2['score'])
+#db.recupererlesmeilleursscores()

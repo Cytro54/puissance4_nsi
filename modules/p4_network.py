@@ -10,7 +10,6 @@ from subprocess import call
 import sys
 import threading
 import time
-from tkinter import SEPARATOR
 
 TAILLE_BUFFER = 1024
 
