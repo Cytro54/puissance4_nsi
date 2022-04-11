@@ -76,20 +76,19 @@ class P4_console:
             motif2 = lmotif[int(input())]
             self.j1["motif"] = motif1
             self.j2["motif"] = motif2
-            diff = 0
-            while diff != 1 and diff != 2:
-                print("difficultée de l'IA")
-                print("1 : facile")
-                print("2 : difficile")
-                diff = int(input())
-                if diff != 1 or diff != 2:
-                    print("erreur")
-            if diff == 1:
-                return nb_joueurs, 1
-            if diff == 2:
-                return nb_joueurs, 0
-        #si il y a 2 joueurs, demande is le jeu est en ligne ou en local
-            #marche pas encore
+            # Plus de choix de difficulté pour le moment
+            diff = 1 # p4_ia.DIIFICULTE_FACILE
+            #while diff != 1 and diff != 2:
+            #    print("difficultée de l'IA")
+            #    print("1 : facile")
+            #    print("2 : difficile")
+            #    diff = int(input())
+            #    if diff != 1 or diff != 2:
+            #        print("erreur")
+            #if diff == 1:
+            return nb_joueurs, diff
+            #if diff == 2:
+            #    return nb_joueurs, 0
         if nb_joueurs == 3:
             print("marche pas encore donc c'est du 1v1 en local")     
             nb_joueurs == 2    

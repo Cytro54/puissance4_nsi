@@ -163,9 +163,6 @@ def calculer_meilleur_move(game, difficulte, joueur_ia):
 
     Sortie : Le numero de colonne sur lequel il faut placer le pion controllé par l'IA
     """
-    if difficulte == DIFFICULTE_ALEATOIRE:
-        return random.randint(0, COLONNES - 1)
-    
     if difficulte == DIFFICULTE_FACILE:
         col = __min_max(game, joueur_ia, DEEP_LEVEL)
         print(col)
