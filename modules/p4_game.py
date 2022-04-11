@@ -14,7 +14,7 @@ class P4_game():
     def __init__(self):
         # Variables
         self.plateau = []
-        self.tour = 0 #si le tour est un nombre paire le joueur 1 joue, sinon c'est le joueur 2 qui joue  
+        self.tour = 0 #si le tour est un nombre pair le joueur 1 joue, sinon c'est le joueur 2 qui joue  
         self.j1_score = 0
         self.j2_score = 0
 
@@ -42,7 +42,7 @@ class P4_game():
 
     def jeu_possible(self,col):
         """
-        entré: numero de la colonne (0 à 6)
+        entrée: numero de la colonne (0 à 6)
         sortie: print erreur si:
         -le numéro de la colonne est inférieur à 1,
         -supérieur à 6

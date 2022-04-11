@@ -13,6 +13,8 @@ class P4_console:
     #affiche le plateau de jeu
 
     def affiche(self,plateau):
+        print()
+        print()
         #affiche le haut du plateau, les joueurs et les scores
         print(f"┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┓     Score {self.j1['nom']} : {self.j1['score']}")
         print(f"┃         Puissance 4       ┃     Score {self.j2['nom']} : {self.j2['score']}")
