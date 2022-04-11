@@ -77,7 +77,7 @@ class P4_console:
             self.j1["motif"] = motif1
             self.j2["motif"] = motif2
             # Plus de choix de difficulté pour le moment
-            diff = 2 # p4_ia.DIIFICULTE_FACILE
+            diff = 1 # p4_ia.DIIFICULTE_FACILE
             #while diff != 1 and diff != 2:
             #    print("difficultée de l'IA")
             #    print("1 : facile")
