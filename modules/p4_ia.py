@@ -3,11 +3,12 @@
 # du jeu, le tout sera fait par une simple fonction; 
 # en se servant du MinMax
 import random
+from copy import copy, deepcopy
 COLONNES = 7
 LIGNES = 6
 LONGEUR_LIGNE_VICTORIEUSE = 4
 CASE_NEUTRE = 0
-DEEP_LEVEL = 5
+DEEP_LEVEL = 1
 
 DIFFICULTE_ALEATOIRE = 0
 DIFFICULTE_FACILE = 1
@@ -113,42 +114,46 @@ def __dump_plateau(game):
     # ma propre représentation, tout aussi bizarre)
     return game.plateau
 
-def __min_max(game, joueur, recurse):
-    meilleur_avantage = 0
-    meilleur_move = 0
-    for col in range(COLONNES):
-        # Comment perdre de la memoire en une étape.
-        # (Testons toutes les combinaisons)
-        game_essaye = game.copy()
-        meilleur_avantage_essaye = meilleur_avantage
-        meilleur_move_essaye = meilleur_move
-        if game_essaye.jeu_possible(col):
-            game_essaye.placer(col)
-            plateau_temporaire = __dump_plateau(game_essaye)
-            avantage_temporaire = __estimer_avantages(plateau_temporaire, joueur)
-            if avantage_temporaire > meilleur_avantage_essaye:
-                meilleur_move_essaye = col
-                meilleur_avantage_essaye = avantage_temporaire
+def __mini_max(game, profondeur, maximisant, joueur):
+    if profondeur == 0:
+        # Estimons notre avantage ici.
+        try:
+            avantage = __estimer_avantages(__dump_plateau(game), joueur)
 
-        if recurse is not 0:
-            joueur_ennemi = None
-            if joueur == 1:
-                joueur_ennemi = 2
-            else:
-                joueur_ennemi = 1
-
-            # Maintenant que on sait quel move faut faire, on estime le meilleur move de l'adversaire
-            move_ennemi = __min_max(game, joueur_ennemi, 0)
-            game_essaye.placer(move_ennemi)
-
-            # Et on base notre estimation sur ca
-            plateau_temporaire = __dump_plateau(game_essaye)
-            avantage_temporaire = __estimer_avantages(plateau_temporaire, joueur)
-            if avantage_temporaire > meilleur_avantage:
-                meilleur_move_essaye = col
-                meilleur_avantage_essaye = avantage_temporaire
+            return None, avantage
+        except VictoireException:
+            # On gagne ou on perd !!!!!
+            return None, float('inf')
             
-    return meilleur_move
+
+    col = None
+    print(f"{profondeur}")
+    if maximisant:
+        value = float('-inf')
+        for col in range(COLONNES):
+            next_game = deepcopy(game)
+            next_game.placer(col)
+            col_essai, value_essai = __mini_max(next_game, profondeur - 1, False, joueur)
+            print(f"+ {col_essai} -> {value_essai}")
+            if col_essai is None:
+                col_essai = col
+            if value_essai > value:
+                value = value_essai
+                col = col_essai
+    else: # Joueur ennemi
+        value = float('+inf')
+        for col in range(COLONNES):
+            next_game = deepcopy(game)
+            next_game.placer(col)
+            col_essai, value_essai = __mini_max(next_game, profondeur - 1, True, joueur)
+            print(f"- {col_essai} -> {value_essai}")
+            if col_essai is None:
+                col_essai = col
+            if value_essai < value:
+                value = value_essai
+                col = col_essai
+    return col, value
+
 
 def calculer_meilleur_move(game, difficulte, joueur_ia):
     """
@@ -164,9 +169,9 @@ def calculer_meilleur_move(game, difficulte, joueur_ia):
     Sortie : Le numero de colonne sur lequel il faut placer le pion controllé par l'IA
     """
     if difficulte == DIFFICULTE_FACILE:
-        col = __min_max(game, joueur_ia, DEEP_LEVEL)
+        col, _avantage = __mini_max(game, DEEP_LEVEL, True, joueur_ia)
         print(col)
-        return col - 1
+        return col
 
 def a_gagne(game, joueur):
     """

@@ -7,7 +7,7 @@ nb_winer_line = 4
 nb_joueurs = 2
 vide, j1, j2 = 0, 1, 2 # diférenciation des cases du joueur1, du joueur 2 et des cases vides
 
-class P4_game():
+class P4_game(object):
     """
     classe qui va s'occuper de la création du jeu
     """ 
