@@ -107,12 +107,12 @@ class P4_game(object):
         return j1_gagne or j2_gagne
 
     def victoire_2(self):
-        j1, j2 = self.victoire()
         j3 = "égalité"
-        if j1 == True:
+        if self.victoire() == j1_gagne:
             return "j1"
-        elif j2 == True:
+        else:
             return "j2"
+
     
     def get_score(self):
         """
