@@ -43,6 +43,7 @@ def main():
                 raise RuntimeError("Uh Oh: , l'IA a tentée de jouer sur une colonne interdite")
             game.placer(colonne)
 
+            print(game.plateau)
             fin_partie = game.victoire()
 
     if mode_de_jeu == 2:
