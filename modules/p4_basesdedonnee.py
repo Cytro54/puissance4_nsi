@@ -24,7 +24,7 @@ class p4_basesdedonnee():
             id, nom, score    = i
             print(f"{id}: {nom} :  {score}")
             
-    def supprimerunscore(self):
+    def supprimerunscoreenfonctiondelidduscore(self):
 
         suppr = input("id du truc a effacer")
         self.cur.execute('DELETE FROM TOP_SCORE WHERE id = ?', suppr)
