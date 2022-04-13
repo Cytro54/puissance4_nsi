@@ -48,17 +48,13 @@ def main():
                 game.placer(colonne)
 
                 print(game.plateau)
-                joueurquiagagne = game.victoire_2()
                 fin_partie = game.victoire()
 
 
-            rejouer = console.fin_de_partie(db, joueurquiagagne)
+            rejouer = console.fin_de_partie(db, game.victoire_2())
             if rejouer == "rejouer":
                 fin_partie == True
-            print("====================================================")
-            print(fin_partie)
-            print("====================================================")
-            print(joueurquiagagne)
+
 
     if mode_de_jeu == 2:
         while fin_partie is not True:

@@ -124,7 +124,7 @@ class P4_console:
         reponse = 0
         if joueurquiagagne == "j1":
             print(f"{self.j1['nom']} a gagné")
-        if joueurquiagagne =="j2":
+        elif joueurquiagagne =="j2":
             print(f"{self.j2['nom']} a gagné")
         else:
             print("égalité, personne n'a gagné")
