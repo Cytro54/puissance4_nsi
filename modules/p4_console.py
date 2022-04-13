@@ -119,3 +119,26 @@ class P4_console:
         a, b = jeu.get_score()
         self.j1["score"] = a
         self.j2["score"] = b
+
+    def fin_de_partie(self, nom_basededonnee,joueurquiagagne):
+        reponse = 0
+        if joueurquiagagne == "j1":
+            print(f"{self.j1['nom']} a gagné")
+        if joueurquiagagne =="j2":
+            print(f"{self.j2['nom']} a gagné")
+        else:
+            print("égalité, personne n'a gagné")
+        print()
+        while reponse != 1 and reponse !=2:
+            print("voullez vous rejouer ?")
+            print("1: oui")
+            print("2: non") 
+            reponse = int(input())
+        if reponse == 1:
+            return "rejouer"
+        if reponse == 2:           
+            nom_basededonnee.ajoutdejoueuroumodificationdelabasededonee(self.j1['nom'], self.j1['score'])
+            nom_basededonnee.ajoutdejoueuroumodificationdelabasededonee(self.j2['nom'], self.j2['score'])
+            nom_basededonnee.afficherlesmeilleursscores()
+            return "pasrejouer"
+            

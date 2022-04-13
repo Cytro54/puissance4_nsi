@@ -21,30 +21,44 @@ def main():
     console = P4_console()
     db = p4_basesdedonnee()
     mode_de_jeu, difficulte = console.debut_jeu()
-    
+    rejouer = True
+    joueurquiagagne = 0
+
     if mode_de_jeu == 1:
-        while fin_partie is not True:
-            # Mise a jour de l'affichage
-            console.modif_score(game)
-            console.affiche(game.plateau_ligne_par_ligne())
+        while rejouer is not False:
+            while fin_partie is not True:
+                # Mise a jour de l'affichage
+                console.modif_score(game)
+                console.affiche(game.plateau_ligne_par_ligne())
             
-            # Faire jouer le joueur
-            while True:
-                colonne = console.demander_colonne(1)
-                if game.jeu_possible(colonne):
-                    game.placer(colonne)
-                    break
+                # Faire jouer le joueur
+                while True:
+                    colonne = console.demander_colonne(1)
+                    if game.jeu_possible(colonne):
+                        game.placer(colonne)
+                        break
 
-            fin_partie = game.victoire()
+                joueurquiagagne = game.victoire_2()
+                fin_partie = game.victoire()
         
-            # Faire jouer l'IA
-            colonne = calculer_meilleur_move(game, difficulte, 2)
-            if not game.jeu_possible(colonne):
-                raise RuntimeError("Uh Oh: , l'IA a tentée de jouer sur une colonne interdite")
-            game.placer(colonne)
+                # Faire jouer l'IA
+                colonne = calculer_meilleur_move(game, difficulte, 2)
+                if not game.jeu_possible(colonne):
+                    raise RuntimeError("Uh Oh: , l'IA a tentée de jouer sur une colonne interdite")
+                game.placer(colonne)
 
-            print(game.plateau)
-            fin_partie = game.victoire()
+                print(game.plateau)
+                joueurquiagagne = game.victoire_2()
+                fin_partie = game.victoire()
+
+
+            rejouer = console.fin_de_partie(db, joueurquiagagne)
+            if rejouer == "rejouer":
+                fin_partie == True
+            print("====================================================")
+            print(fin_partie)
+            print("====================================================")
+            print(joueurquiagagne)
 
     if mode_de_jeu == 2:
         while fin_partie is not True:
